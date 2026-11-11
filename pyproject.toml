@@ -7,6 +7,11 @@ dependencies = [
     "flet==1.1.2",
 ]
 
+[dependency-groups]
+dev = [
+    "flet-cli==1.1.2",
+]
+
 [tool.flet]
 product = "MineDeck"
 org = "com.minedeck"
@@ -19,8 +24,3 @@ module = "app"
 [tool.flet.splash]
 color = "#07080C"
 dark_color = "#07080C"
-
-[dependency-groups]
-dev = [
-    "flet-cli==1.1.2",
-]
