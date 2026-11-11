@@ -1,0 +1,43 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+    paths:
+      - "app.py"
+      - "core/**"
+      - "ui/**"
+      - "assets/**"
+      - "pyproject.toml"
+      - ".github/workflows/build-apk.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    name: Build APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Build APK
+        id: build
+        uses: flet-dev/flet-build-action@v1
+        with:
+          target: apk
+          runner-python-version: "3.13"
+          bundled-python-version: "3.13"
+          build-number: ${{ github.run_number }}
+          archive-output: false
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v7
+        with:
+          name: minedeck-apk-${{ github.run_number }}
+          path: build/apk/*.apk
+          if-no-files-found: error
