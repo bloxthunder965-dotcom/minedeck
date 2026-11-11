@@ -19,24 +19,37 @@ jobs:
   build-apk:
     name: Build APK
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 60
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
 
-      - name: Build APK
-        id: build
-        uses: flet-dev/flet-build-action@v1
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          target: apk
-          runner-python-version: "3.13"
-          bundled-python-version: "3.13"
-          build-number: ${{ github.run_number }}
-          archive-output: false
+          python-version: "3.13"
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install Flet CLI
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install "flet[cli]==1.1.2"
+          flet --version --json
+
+      - name: Build APK
+        env:
+          FLET_CLI_NO_RICH_OUTPUT: "1"
+        run: |
+          flet build apk --yes --verbose --build-number "${{ github.run_number }}"
 
       - name: Upload APK
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@v4
         with:
           name: minedeck-apk-${{ github.run_number }}
           path: build/apk/*.apk
