@@ -19,3 +19,8 @@ module = "app"
 [tool.flet.splash]
 color = "#07080C"
 dark_color = "#07080C"
+
+[dependency-groups]
+dev = [
+    "flet-cli==1.1.2",
+]
