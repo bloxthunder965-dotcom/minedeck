@@ -1,0 +1,21 @@
+[project]
+name = "minedeck"
+version = "0.1.0"
+description = "Minecraft Java Edition launcher for Android and desktop"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+    "flet==1.1.2",
+]
+
+[tool.flet]
+product = "MineDeck"
+org = "com.minedeck"
+artifact = "minedeck"
+icon_background = "#07080C"
+
+[tool.flet.app]
+module = "app"
+
+[tool.flet.splash]
+color = "#07080C"
+dark_color = "#07080C"
